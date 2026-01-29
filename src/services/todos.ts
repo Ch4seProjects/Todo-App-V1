@@ -6,7 +6,7 @@ export const getTodos = async (): Promise<Todo[]> => {
   return res.data;
 };
 
-export const getTodoById = async (id: Todo["id"]): Promise<Todo> => {
+export const getTodoById = async (id: Todo["_id"]): Promise<Todo> => {
   const res = await api.get(`/api/todos/${id}`);
   return res.data;
 };
@@ -17,13 +17,13 @@ export const createTodo = async (title: Todo["title"]): Promise<Todo> => {
 };
 
 export const updateTodo = async (
-  id: Todo["id"],
+  id: Todo["_id"],
   updates: Partial<Todo>,
 ): Promise<Todo> => {
   const res = await api.put(`/api/todos/${id}`, updates);
   return res.data;
 };
 
-export const deleteTodo = async (id: Todo["id"]): Promise<void> => {
+export const deleteTodo = async (id: Todo["_id"]): Promise<void> => {
   await api.delete(`/api/todos/${id}`);
 };

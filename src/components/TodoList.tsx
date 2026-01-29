@@ -26,7 +26,7 @@ export default function TodoList() {
       <div className="h-[300px] overflow-auto">
         {todos.length > 0 ? (
           sortedTodos.map((todo: Todo) => (
-            <TodoItem key={todo.id} todo={todo} />
+            <TodoItem key={todo._id} todo={todo} />
           ))
         ) : (
           <p className="text-gray-600 mt-2 italic text-center">

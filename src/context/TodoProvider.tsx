@@ -26,14 +26,14 @@ export default function TodoProvider({ children }: TodoProviderProps) {
     setTodos((prev) => [...prev, newTodo]);
   };
 
-  const deleteTodo = async (id: Todo["id"]) => {
+  const deleteTodo = async (id: Todo["_id"]) => {
     await deleteTodoService(id);
-    setTodos((prev) => prev.filter((t) => t.id !== id));
+    setTodos((prev) => prev.filter((t) => t._id !== id));
   };
 
-  const updateTodo = async (id: Todo["id"], todo: Todo) => {
+  const updateTodo = async (id: Todo["_id"], todo: Todo) => {
     const updated = await updateTodoService(id, todo);
-    setTodos((prev) => prev.map((t) => (t.id === id ? updated : t)));
+    setTodos((prev) => prev.map((t) => (t._id === id ? updated : t)));
   };
 
   return (

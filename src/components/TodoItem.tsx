@@ -10,14 +10,14 @@ interface TodoItemProps {
 }
 
 export default function TodoItem({ todo }: TodoItemProps) {
-  const { id, title, isCompleted } = todo;
+  const { _id, title, isCompleted } = todo;
   const { deleteTodo, updateTodo } = useTodoContext();
 
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(title);
 
   const handleDeleteTodo = async () => {
-    await deleteTodo(id);
+    await deleteTodo(_id);
   };
 
   const handleUpdateTodo = async () => {
@@ -28,7 +28,7 @@ export default function TodoItem({ todo }: TodoItemProps) {
       return;
     }
 
-    await updateTodo(id, { ...todo, title: trimmedTitle });
+    await updateTodo(_id, { ...todo, title: trimmedTitle });
     setIsEditing(false);
   };
 
@@ -41,7 +41,7 @@ export default function TodoItem({ todo }: TodoItemProps) {
       onClick={async (e) => {
         const target = e.target as HTMLElement;
         if (target.tagName !== "INPUT" && !target.closest("button, svg")) {
-          await updateTodo(id, { ...todo, isCompleted: !isCompleted });
+          await updateTodo(_id, { ...todo, isCompleted: !isCompleted });
         }
       }}
     >
@@ -49,7 +49,7 @@ export default function TodoItem({ todo }: TodoItemProps) {
         type="checkbox"
         checked={isCompleted}
         onChange={async () => {
-          await updateTodo(id, { ...todo, isCompleted: !isCompleted });
+          await updateTodo(_id, { ...todo, isCompleted: !isCompleted });
         }}
         className="h-6 w-6"
         onClick={(e) => e.stopPropagation()}
