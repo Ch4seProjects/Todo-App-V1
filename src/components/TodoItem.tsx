@@ -17,18 +17,18 @@ export default function TodoItem({ todo }: TodoItemProps) {
   const [editedTitle, setEditedTitle] = useState(title);
 
   const handleDeleteTodo = async () => {
-    await deleteTodo(todo.id);
+    await deleteTodo(id);
   };
 
   const handleUpdateTodo = async () => {
     const trimmedTitle = editedTitle.trim();
 
-    if (!trimmedTitle || trimmedTitle === todo.title) {
+    if (!trimmedTitle || trimmedTitle === title) {
       setIsEditing(false);
       return;
     }
 
-    await updateTodo(todo.id, { ...todo, title: trimmedTitle });
+    await updateTodo(id, { ...todo, title: trimmedTitle });
     setIsEditing(false);
   };
 
@@ -69,7 +69,7 @@ export default function TodoItem({ todo }: TodoItemProps) {
         />
       ) : (
         <p className={clsx(isCompleted && "line-through text-gray-400")}>
-          {todo.title}
+          {title}
         </p>
       )}
       <div className="h-full flex items-center justify-center gap-4 absolute right-2 top-0">

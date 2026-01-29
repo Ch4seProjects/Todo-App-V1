@@ -7,8 +7,8 @@ type TodoContextType = {
   todos: Todo[];
   addTodo: (title: string) => void;
   getTodos: () => void;
-  deleteTodo: (id: string) => void;
-  updateTodo: (id: string, todo: Todo) => void;
+  deleteTodo: (id: number) => void;
+  updateTodo: (id: number, todo: Todo) => void;
 };
 
 const TodoContext = createContext<TodoContextType | undefined>(undefined);

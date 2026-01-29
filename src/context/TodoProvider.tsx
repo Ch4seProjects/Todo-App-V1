@@ -13,7 +13,7 @@ export default function TodoProvider({ children }: TodoProviderProps) {
 
   const addTodo = (title: string) => {
     const newTodo: Todo = {
-      id: Math.random().toString(),
+      id: Math.random(),
       title,
       isCompleted: false,
       createdAt: new Date(),
@@ -26,11 +26,11 @@ export default function TodoProvider({ children }: TodoProviderProps) {
     setTodos(data);
   };
 
-  const deleteTodo = (id: string) => {
+  const deleteTodo = (id: number) => {
     setTodos((prev) => prev.filter((todo) => todo.id !== id));
   };
 
-  const updateTodo = (id: string, updatedTodo: Todo) => {
+  const updateTodo = (id: number, updatedTodo: Todo) => {
     setTodos((prev) =>
       prev.map((todo) => (todo.id === id ? updatedTodo : todo)),
     );
