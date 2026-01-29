@@ -1,8 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Todo } from "../types/todo";
 import TodoContext from "./TodoContext";
+import {
+  getTodos as getTodosService,
+  createTodo as createTodoService,
+  updateTodo as updateTodoService,
+  deleteTodo as deleteTodoService,
+} from "../services/todos";
 
 interface TodoProviderProps {
   children: React.ReactNode;
@@ -11,35 +17,27 @@ interface TodoProviderProps {
 export default function TodoProvider({ children }: TodoProviderProps) {
   const [todos, setTodos] = useState<Todo[]>([]);
 
-  const addTodo = (title: string) => {
-    const newTodo: Todo = {
-      id: Math.random(),
-      title,
-      isCompleted: false,
-      createdAt: new Date(),
-    };
+  useEffect(() => {
+    getTodosService().then(setTodos);
+  }, []);
+
+  const addTodo = async (title: Todo["title"]) => {
+    const newTodo = await createTodoService(title);
     setTodos((prev) => [...prev, newTodo]);
   };
 
-  const getTodos = () => {
-    const data: Todo[] = [];
-    setTodos(data);
+  const deleteTodo = async (id: Todo["id"]) => {
+    await deleteTodoService(id);
+    setTodos((prev) => prev.filter((t) => t.id !== id));
   };
 
-  const deleteTodo = (id: number) => {
-    setTodos((prev) => prev.filter((todo) => todo.id !== id));
-  };
-
-  const updateTodo = (id: number, updatedTodo: Todo) => {
-    setTodos((prev) =>
-      prev.map((todo) => (todo.id === id ? updatedTodo : todo)),
-    );
+  const updateTodo = async (id: Todo["id"], todo: Todo) => {
+    const updated = await updateTodoService(id, todo);
+    setTodos((prev) => prev.map((t) => (t.id === id ? updated : t)));
   };
 
   return (
-    <TodoContext.Provider
-      value={{ todos, addTodo, getTodos, deleteTodo, updateTodo }}
-    >
+    <TodoContext.Provider value={{ todos, addTodo, deleteTodo, updateTodo }}>
       {children}
     </TodoContext.Provider>
   );

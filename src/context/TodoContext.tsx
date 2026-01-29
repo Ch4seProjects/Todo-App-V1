@@ -5,10 +5,9 @@ import { Todo } from "../types/todo";
 
 type TodoContextType = {
   todos: Todo[];
-  addTodo: (title: string) => void;
-  getTodos: () => void;
-  deleteTodo: (id: number) => void;
-  updateTodo: (id: number, todo: Todo) => void;
+  addTodo: (title: Todo["title"]) => Promise<void>;
+  deleteTodo: (id: Todo["id"]) => Promise<void>;
+  updateTodo: (id: Todo["id"], todo: Todo) => Promise<void>;
 };
 
 const TodoContext = createContext<TodoContextType | undefined>(undefined);
