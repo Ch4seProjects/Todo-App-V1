@@ -1,56 +1,38 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Todo } from "../core/Todo";
-import { TodoRepositoryImpl } from "../infrastructure/TodoRepositoryImpl";
+import { useState } from "react";
+import { Todo } from "../types/todo";
 import TodoContext from "./TodoContext";
 
-export default function TodoProvider({
-  children,
-}: {
+interface TodoProviderProps {
   children: React.ReactNode;
-}) {
+}
+
+export default function TodoProvider({ children }: TodoProviderProps) {
   const [todos, setTodos] = useState<Todo[]>([]);
-  const repo = new TodoRepositoryImpl();
 
-  useEffect(() => {
-    const fetchTodos = async () => {
-      const data = await repo.getTodos();
-      setTodos(data);
-    };
-    fetchTodos();
-  }, []);
-
-  const addTodo = async (title: string) => {
+  const addTodo = (title: string) => {
     const newTodo: Todo = {
       id: Math.random().toString(),
       title,
-      completed: false,
+      isCompleted: false,
       createdAt: new Date(),
     };
-    await repo.addTodo(newTodo);
     setTodos((prev) => [...prev, newTodo]);
   };
 
-  const getTodos = async () => {
-    const data = await repo.getTodos();
+  const getTodos = () => {
+    const data: Todo[] = [];
     setTodos(data);
   };
 
-  const deleteTodo = async (id: string) => {
-    await repo.deleteTodo(id);
+  const deleteTodo = (id: string) => {
     setTodos((prev) => prev.filter((todo) => todo.id !== id));
   };
 
-  const updateTodo = async (id: string, todo: Todo) => {
-    await repo.updateTodo(id, todo);
+  const updateTodo = (id: string, updatedTodo: Todo) => {
     setTodos((prev) =>
-      prev.map((existingTodo) => {
-        if (existingTodo.id === id) {
-          return todo;
-        }
-        return existingTodo;
-      })
+      prev.map((todo) => (todo.id === id ? updatedTodo : todo)),
     );
   };
 

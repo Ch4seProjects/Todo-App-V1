@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useState } from "react";
 import { useTodoContext } from "../context/TodoContext";
 import { handleKeyDown } from "../utils/onKeyDown";

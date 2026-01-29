@@ -3,15 +3,16 @@
 import React, { useMemo } from "react";
 import TodoInput from "./TodoInput";
 import TodoItem from "./TodoItem";
-import { Todo } from "../core/Todo";
+import { Todo } from "../types/todo";
 import { useTodoContext } from "../context/TodoContext";
 
 export default function TodoList() {
   const { todos } = useTodoContext();
+
   const sortedTodos = useMemo(() => {
     return [...todos].sort(
       (a, b) =>
-        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
     );
   }, [todos]);
 

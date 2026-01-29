@@ -1,14 +1,14 @@
 "use client";
 
 import { createContext, useContext } from "react";
-import { Todo } from "../core/Todo";
+import { Todo } from "../types/todo";
 
 type TodoContextType = {
   todos: Todo[];
-  addTodo: (title: string) => Promise<void>;
-  getTodos: () => Promise<void>;
-  deleteTodo: (id: string) => Promise<void>;
-  updateTodo: (id: string, todo: Todo) => Promise<void>;
+  addTodo: (title: string) => void;
+  getTodos: () => void;
+  deleteTodo: (id: string) => void;
+  updateTodo: (id: string, todo: Todo) => void;
 };
 
 const TodoContext = createContext<TodoContextType | undefined>(undefined);
